@@ -2,6 +2,7 @@
 
 import { Canvas } from '@react-three/fiber';
 import CameraRig from './three/CameraRig';
+import FocusDimmer from './three/FocusDimmer';
 import Crystal from './three/Crystal';
 import ShowcaseBoxes from './three/ShowcaseBoxes';
 import MarkAssembly from './three/MarkAssembly';
@@ -23,9 +24,12 @@ export default function Scene() {
         camera={{ fov: 42, near: 0.1, far: 260, position: [0, 0.25, 7.5] }}
       >
         <color attach="background" args={['#04060c']} />
-        <fog attach="fog" args={['#04060c', 18, 120]} />
+        {/* Beats sit ~18 apart; far = 64 keeps only the current beat and the
+            next one in view, so a beat's mascot never lingers over another. */}
+        <fog attach="fog" args={['#04060c', 14, 64]} />
         <Lights />
         <CameraRig />
+        <FocusDimmer />
 
         {/* Hero beat */}
         <Crystal position={[0, 0, CLUSTERS.crystal]} />

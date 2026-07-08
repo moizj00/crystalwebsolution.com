@@ -6,12 +6,15 @@ import Loader from './Loader';
 import Cursor from './Cursor';
 import Nav from './Nav';
 import ScrollProgress from './ScrollProgress';
+import FocusVeil from './FocusVeil';
 import Hero from './sections/Hero';
 import Services from './sections/Services';
 import Showcase from './sections/Showcase';
+import Stories from './sections/Stories';
 import Mark from './sections/Mark';
 import About from './sections/About';
 import Facts from './sections/Facts';
+import Motion from './sections/Motion';
 import Contact from './sections/Contact';
 
 // The Scene touches window + ships heavy libs — client-only.
@@ -23,15 +26,18 @@ export default function Experience() {
       <Loader />
       <Cursor />
       <Scene />
+      <FocusVeil />
       <Nav />
       <ScrollProgress />
       <main className="page">
         <Hero />
         <Services />
         <Showcase />
+        <Stories />
         <Mark />
         <About />
         <Facts />
+        <Motion />
         <Contact />
       </main>
     </SmoothScroll>

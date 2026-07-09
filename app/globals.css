@@ -707,3 +707,56 @@ h1, h2 {
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-line { animation: none; }
 }
+
+/* ---------- approach ---------- */
+.approach-list { border-top: 1px solid var(--line); }
+.approach-row { transform-origin: left center; }
+.approach-row-inner {
+  display: grid;
+  grid-template-columns: 5rem 1fr 1.2fr;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 2.2rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: padding-left 0.4s;
+}
+.approach-row-inner:hover { padding-left: 1.2rem; }
+.approach-num { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); }
+.approach-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  transition: color 0.3s;
+}
+.approach-row-inner:hover .approach-title { color: var(--cyan); }
+.approach-desc { color: var(--muted); line-height: 1.7; font-size: 0.95rem; }
+
+/* ---------- recognition ---------- */
+.recognition-list { border-top: 1px solid var(--line); margin-bottom: 4rem; }
+.recognition-row-inner {
+  display: grid;
+  grid-template-columns: 5rem 1fr 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid var(--line);
+  transition: padding-left 0.4s;
+  cursor: default;
+}
+.recognition-row-inner:hover { padding-left: 1.2rem; }
+.recognition-year-wrap { display: inline-block; height: 1.15em; overflow: hidden; vertical-align: top; }
+.recognition-year-stack {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.recognition-row-inner:hover .recognition-year-stack { transform: translateY(-1.15em); }
+.recognition-year { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); line-height: 1.15em; }
+.recognition-year-dup { color: var(--violet); }
+.recognition-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  transition: color 0.3s;
+}
+.recognition-row-inner:hover .recognition-name { color: var(--cyan); }
+.recognition-body { color: var(--muted); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; }
+.recognition-marquee { margin-top: 1rem; }

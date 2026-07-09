@@ -6,6 +6,8 @@ import FocusDimmer from './three/FocusDimmer';
 import Crystal from './three/Crystal';
 import ShowcaseBoxes from './three/ShowcaseBoxes';
 import MarkAssembly from './three/MarkAssembly';
+import ApproachCompass from './three/ApproachCompass';
+import RecognitionRing from './three/RecognitionRing';
 import Particles from './three/Particles';
 import Sparks from './three/Sparks';
 import BackdropMorph from './three/BackdropMorph';
@@ -40,11 +42,17 @@ export default function Scene() {
           <Crystal position={[0, 0, 0]} />
         </group>
 
+        {/* Approach beat — step-markers orbiting a small core */}
+        <ApproachCompass position={[0, 0, CLUSTERS.approach]} />
+
         {/* Showcase beat */}
         <ShowcaseBoxes position={[0, 0, CLUSTERS.showcase]} />
 
         {/* Mark beat */}
         <MarkAssembly position={[0, 0, CLUSTERS.mark]} />
+
+        {/* Recognition beat — medal ring, brightens on DOM row hover */}
+        <RecognitionRing position={[0, 0, CLUSTERS.recognition]} />
 
         {/* About + Facts + Contact share the ambient field */}
         <group position={[0, 0, CLUSTERS.contact]}>

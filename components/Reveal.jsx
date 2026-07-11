@@ -15,7 +15,6 @@ export default function Reveal({
   duration = 1,
   start = 'top 88%',
   children,
-  ...rest
 }) {
   const ref = useRef(null);
 
@@ -39,5 +38,5 @@ export default function Reveal({
     };
   }, [y, delay, duration, start]);
 
-  return createElement(as, { ref, className: `reveal ${className}`, style: { opacity: 0 }, ...rest }, children);
+  return createElement(as, { ref, className: `reveal ${className}`, style: { opacity: 0 } }, children);
 }

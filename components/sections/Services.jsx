@@ -3,7 +3,6 @@
 import DecodeText from '../DecodeText';
 import Reveal from '../Reveal';
 import Marquee from '../Marquee';
-import { light, dim } from '../../lib/beacon';
 
 const SERVICES = [
   {
@@ -42,14 +41,7 @@ export default function Services() {
       </div>
       <div className="services-list">
         {SERVICES.map((s, i) => (
-          <Reveal
-            key={s.n}
-            className="service-row"
-            delay={i * 0.06}
-            as="div"
-            onPointerEnter={() => light(i)}
-            onPointerLeave={dim}
-          >
+          <Reveal key={s.n} className="service-row" delay={i * 0.06} as="div">
             <span className="service-num">{s.n}</span>
             <h3 className="service-title" data-hover data-cursor="✦">{s.title}</h3>
             <p className="service-desc">{s.desc}</p>

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import ProjectVisual from '../../components/ProjectVisual';
-import Cursor from '../../components/Cursor';
 import { PROJECTS } from '../../lib/projects';
 import { SITE } from '../../lib/site';
 
@@ -9,7 +8,6 @@ export const metadata = { title: `Work | ${SITE.name}` };
 export default function WorkIndex() {
   return (
     <div className="subpage">
-      <Cursor />
       <header className="nav">
         <Link href="/" className="nav-logo" data-cursor="Home">
           <span className="nav-logo-mark">◆</span>

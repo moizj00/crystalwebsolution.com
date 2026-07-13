@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ProjectVisual from '../../../components/ProjectVisual';
-import Cursor from '../../../components/Cursor';
 import { PROJECTS, getProject } from '../../../lib/projects';
 import { SITE } from '../../../lib/site';
 
@@ -23,7 +22,6 @@ export default function CaseStudy({ params }) {
 
   return (
     <div className="subpage">
-      <Cursor />
       <header className="nav">
         <Link href="/" className="nav-logo" data-cursor="Home">
           <span className="nav-logo-mark">◆</span>

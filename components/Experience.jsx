@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import SmoothScroll from './SmoothScroll';
 import Loader from './Loader';
-import Cursor from './Cursor';
 import Nav from './Nav';
 import ScrollProgress from './ScrollProgress';
 import FocusVeil from './FocusVeil';
@@ -26,7 +25,6 @@ export default function Experience() {
   return (
     <SmoothScroll>
       <Loader />
-      <Cursor />
       <Scene />
       <FocusVeil />
       <Nav />

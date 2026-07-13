@@ -33,13 +33,13 @@ export default function Experience() {
       <ScrollProgress />
       <main className="page">
         <Hero />
-        <Services />
-        <Approach />
-        <Showcase />
-        <Stories />
-        <Mark />
         <About />
         <Facts />
+        <Showcase />
+        <Services />
+        <Approach />
+        <Stories />
+        <Mark />
         <Recognition />
         <Motion />
         <Contact />

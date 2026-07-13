@@ -15,12 +15,19 @@ export default function Reveal({
   duration = 1,
   start = 'top 88%',
   children,
+  ...rest
 }) {
   const ref = useRef(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(el, { opacity: 1, y: 0 });
+      return;
+    }
+
     let trigger;
     const run = () => {
       gsap.fromTo(
@@ -38,5 +45,5 @@ export default function Reveal({
     };
   }, [y, delay, duration, start]);
 
-  return createElement(as, { ref, className: `reveal ${className}`, style: { opacity: 0 } }, children);
+  return createElement(as, { ref, className: `reveal ${className}`, style: { opacity: 0 }, ...rest }, children);
 }

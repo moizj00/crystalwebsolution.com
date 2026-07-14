@@ -143,3 +143,54 @@ Motion's entrance twice.
 4. Spot-check every new singleton against `motionScale.value` gating and
    confirm no console warnings/errors introduced.
 5. Commit + push to `main` as the final step, per standing convention.
+
+---
+
+## Phase 0 — Layout & type-scale coherence audit (findings, run alongside Phase 3/4)
+
+Concrete audit of `app/globals.css` (1016 lines), grounded in actual values, not
+guesswork — this is the "every single pixel coherent" half of the ask, as a
+companion to the animation phases above.
+
+### Finding 1: label/eyebrow type scale has drifted into 10+ one-off sizes
+`0.58rem 0.65rem 0.66rem 0.68rem(×4) 0.7rem(×2) 0.72rem(×5) 0.75rem(×4) 0.78rem
+0.8rem 0.85rem` are all doing the same job (mono eyebrow tags, hints, meta
+labels) across different sections with no shared token. **Fix:** introduce 3
+tokens in `:root` — `--text-eyebrow: 0.72rem` (section labels），
+`--text-caption: 0.68rem` (fine print/hints), `--text-meta: 0.85rem` (link/meta
+rows) — and repoint each section's one-off value to the nearest token as that
+section is touched in Phase 3/4 (don't do a single giant CSS rewrite in one
+shot; fold it into the files already being edited to keep diffs reviewable and
+avoid regressions).
+
+### Finding 2: big-statement headline scale has no documented hierarchy
+Current maxes: `.section-title` 3.6rem, `.mark-line` 4.6rem, `.page-title` 4.6rem,
+`.showcase-smil-heading h2` 5rem, `.contact-line` 6.4rem, `.hero-title` 8rem,
+`.motion-copy` **12rem** (currently the single largest text on the entire
+site — larger than the hero). **Action:** not necessarily a bug, but needs a
+deliberate call: confirm Motion is meant to be the loudest moment on the page,
+or dial it toward Hero/Contact's tier. Either way, document the 3-tier
+hierarchy (e.g. S ~3.6rem section titles, M ~4.6-6.4rem mark/contact/page, L
+~8-12rem hero/motion) as a comment block in `globals.css` next to `:root`, so
+future edits read as intentional, not drift.
+
+### Finding 3: accent color usage is lopsided and undocumented
+`var(--cyan)` appears 34×, `var(--blue)` 3×, `var(--violet)` 5× across the
+stylesheet. **Decide one of:** (a) cyan is the deliberate primary accent
+everywhere, blue/violet are rare special-case highlights — document that rule
+explicitly, or (b) rotate accent hue per section/cluster (matching
+`journey.js`'s `CLUSTERS` progression) for a more "designed, each act has its
+own identity" feel. Pick (a) unless doing (b) is cheap given what's already
+touched in Phase 3/4 — don't introduce a new color system this late for its
+own sake.
+
+### Finding 4: verify the 82svh sub-beat sections are intentional
+`showcase-smil`, `motion` (mobile only), and `about-smil` use `82svh` while
+every top-level beat uses `100vh`/`100svh`. Likely intentional (nested
+sub-beats, mobile breakpoint), but confirm during the Final Coherence Sweep
+rather than assume — a stray 82svh would visibly break the section rhythm.
+
+**Sequencing:** thread Findings 1-2 into whichever files Phase 3 (Approach/
+Stories/Facts) and Phase 4 (Motion) already touch. Finding 3 is a judgment
+call to make once, early, so new Phase 3/4 code follows whichever rule is
+chosen. Finding 4 gets confirmed in the existing Final Coherence Sweep step.

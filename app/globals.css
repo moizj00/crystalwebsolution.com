@@ -277,8 +277,7 @@ h1, h2 {
   mix-blend-mode: normal;
 }
 .nav-logo { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 600; }
-.nav-logo-mark { color: var(--cyan); font-size: 1.1rem; }
-.nav-logo-text { font-size: 0.95rem; letter-spacing: 0.06em; }
+.nav-logo-img { height: 40px; width: auto; display: block; }
 .nav-right { display: flex; align-items: center; gap: 0.8rem; }
 
 .nav-burger {
@@ -952,7 +951,7 @@ h1, h2 {
   .about-cols { grid-template-columns: 1fr; gap: 2rem; }
   .footer { grid-template-columns: 1fr; gap: 2rem; }
   .work-row { grid-template-columns: 1fr; }
-  .nav-logo-text { display: none; }
+  .nav-logo-img { height: 32px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

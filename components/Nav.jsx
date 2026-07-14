@@ -13,8 +13,7 @@ export default function Nav() {
     <>
       <header className="nav">
         <Link href="/" className="nav-logo" data-cursor="Home">
-          <span className="nav-logo-mark">◆</span>
-          <span className="nav-logo-text">{SITE.name}</span>
+          <img className="nav-logo-img" src="/logo-main.png" alt={SITE.name} />
         </Link>
         <div className="nav-right">
           <Magnetic>

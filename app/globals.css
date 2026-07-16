@@ -282,8 +282,18 @@ h1, h2 {
   padding: 1.4rem 3vw;
   mix-blend-mode: normal;
 }
-.nav-logo { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 600; }
-.nav-logo-img { height: 60px; width: auto; display: block; }
+.nav-logo { display: flex; align-items: center; gap: 0.8rem; font-family: var(--font-display); font-weight: 600; }
+.nav-logo-mark { width: clamp(38px, 3.4vw, 50px); height: clamp(38px, 3.4vw, 50px); display: block; flex-shrink: 0; }
+.nav-logo-text { display: flex; flex-direction: column; line-height: 1.05; }
+.nav-logo-text strong { font-size: clamp(1.3rem, 2vw, 1.7rem); letter-spacing: 0.02em; }
+.nav-logo-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 .nav-right { display: flex; align-items: center; gap: 0.8rem; }
 
 .nav-burger {
@@ -570,7 +580,10 @@ h1, h2 {
 .showcase-smil-heading {
   position: absolute;
   z-index: 2;
-  top: 5vh;
+  /* Clears the fixed nav (~5.5rem tall including its padding) with margin
+     to spare, regardless of viewport height — a vh-based offset let this
+     collide with the nav mark on shorter viewports. */
+  top: 7.5rem;
   left: 4vw;
 }
 .showcase-smil-heading p {
@@ -957,7 +970,6 @@ h1, h2 {
   .about-cols { grid-template-columns: 1fr; gap: 2rem; }
   .footer { grid-template-columns: 1fr; gap: 2rem; }
   .work-row { grid-template-columns: 1fr; }
-  .nav-logo-img { height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -8,9 +8,8 @@ import { beatProgress } from '../../lib/beatProgress';
 
 // The approach beat: four step-markers ("Discover / Design / Build /
 // Launch") orbit a small core, dark until Approach's own measured scroll
-// span opens (beatProgress.approach -> beatProgress.work). Same windowing
-// technique as MarkAssembly, but simpler: four equal sub-ranges of one ease
-// value light up in turn.
+// span opens (beatProgress.approach -> beatProgress.work). Four equal
+// sub-ranges of one ease value light up in turn.
 //
 // Each marker's glow is a tiny mass-spring-damper (critically-underdamped,
 // so it overshoots slightly and settles) rather than a flat exponential

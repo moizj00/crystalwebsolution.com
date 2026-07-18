@@ -100,7 +100,7 @@ all have to move together.
 - `components/three/*.jsx` — the R3F scene graph rendered inside
   `Scene.jsx`'s single `<Canvas>`: `CameraRig`, `Lights`, `Effects`
   (postprocessing), `Crystal`, `Particles`, `BackdropMorph`, and per-beat
-  mascots (`ShowcaseBoxes`, `MarkAssembly`, `ApproachCompass`,
+  mascots (`ShowcaseBoxes`, `ApproachCompass`,
   `RecognitionRing`, `Sparks`, `FocusDimmer`).
 - Sections communicate with their 3D counterpart only through the
   singletons above (or GSAP ScrollTrigger), never via props/context across

@@ -6,7 +6,6 @@ import FocusDimmer from './three/FocusDimmer';
 import Crystal from './three/Crystal';
 import ServiceRail from './three/ServiceRail';
 import ShowcaseBoxes from './three/ShowcaseBoxes';
-import MarkAssembly from './three/MarkAssembly';
 import ApproachCompass from './three/ApproachCompass';
 import RecognitionRing from './three/RecognitionRing';
 import Particles from './three/Particles';
@@ -50,9 +49,6 @@ export default function Scene() {
 
         {/* Showcase beat */}
         <ShowcaseBoxes position={[0, 0, CLUSTERS.showcase]} />
-
-        {/* Mark beat */}
-        <MarkAssembly position={[0, 0, CLUSTERS.mark]} />
 
         {/* Recognition beat — medal ring, brightens on DOM row hover */}
         <RecognitionRing position={[0, 0, CLUSTERS.recognition]} />

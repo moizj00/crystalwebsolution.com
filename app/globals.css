@@ -625,7 +625,10 @@ h1, h2 {
 @media (max-width: 767px) {
   .showcase-smil { min-height: 82svh; }
   .showcase-smil-heading h2 { font-size: 2.5rem; }
-  .showcase-smil-stage { transform: scale(1.35); transform-origin: 28% 55%; }
+  /* No transform: scale() here, same reasoning as .about-smil-copy -- the
+     curtain-band labels already span close to the full viewBox width, so
+     scaling up after the SVG had fit itself to the container pushed
+     STRATEGY/IDENTITY past the screen edges. */
 }
 
 /* ---------- mark ---------- */
@@ -824,7 +827,11 @@ h1, h2 {
 
 @media (max-width: 767px) {
   .about-smil { min-height: 82svh; }
-  .about-smil-copy { transform: scale(1.4); transform-origin: 20% 48%; }
+  /* No transform: scale() here -- the SVG already fits itself to the
+     container (default preserveAspectRatio "meet"). Scaling the
+     already-fitted element up pushed the word cloud past the screen
+     edges on phones, since the copy spans almost the full viewBox
+     width side to side. */
   .about-smil-word { font-size: 68px; }
 }
 

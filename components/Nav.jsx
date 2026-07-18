@@ -13,7 +13,16 @@ export default function Nav() {
     <>
       <header className="nav">
         <Link href="/" className="nav-logo" data-cursor="Home">
-          <img className="nav-logo-img" src="/logo-main.png" alt={SITE.name} />
+          <svg className="nav-logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+            <polygon points="20,2 36,14 30,38 10,38 4,14" fill="none" stroke="var(--cyan)" strokeWidth="1.5" />
+            <polygon points="20,2 36,14 20,20" fill="var(--cyan)" fillOpacity="0.4" />
+            <polygon points="4,14 20,20 10,38" fill="var(--blue)" fillOpacity="0.35" />
+            <polygon points="36,14 30,38 20,20" fill="var(--violet)" fillOpacity="0.3" />
+          </svg>
+          <span className="nav-logo-text">
+            <strong>{SITE.short}</strong>
+            <span className="nav-logo-sub">{SITE.name}</span>
+          </span>
         </Link>
         <div className="nav-right">
           <Magnetic>

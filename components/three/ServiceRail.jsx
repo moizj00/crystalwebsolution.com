@@ -128,7 +128,7 @@ export default function ServiceRail({ position = [0, 0, 0] }) {
         </mesh>
       </group>
 
-      {/* 02 Brand & Identity — flat faceted diamond, MarkAssembly's silhouette */}
+      {/* 02 Brand & Identity — flat faceted diamond */}
       <group
         ref={(el) => (emblems.current[1] = el)}
         position={[RAIL_X, TOP_Y - STEP_Y, Z_OFF[1]]}

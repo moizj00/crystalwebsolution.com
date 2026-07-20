@@ -15,6 +15,9 @@ export default function SmoothScroll({ children }) {
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let teardownScroll = () => {};
+    let alignHash = () => {};
+    let hashFrame = 0;
+    let initialHashAligned = false;
 
     const setupNativeScroll = () => {
       const updateNativeScroll = () => {
@@ -26,6 +29,13 @@ export default function SmoothScroll({ children }) {
       };
       updateNativeScroll();
       window.addEventListener('scroll', updateNativeScroll, { passive: true });
+      alignHash = (destination) => {
+        const top = typeof destination === 'number'
+          ? destination
+          : destination.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, behavior: 'auto' });
+        updateNativeScroll();
+      };
       const resizeObserver = typeof ResizeObserver === 'undefined'
         ? null
         : new ResizeObserver(updateNativeScroll);
@@ -53,6 +63,10 @@ export default function SmoothScroll({ children }) {
         ScrollTrigger.update();
       };
       lenis.on('scroll', onScroll);
+      alignHash = (destination) => {
+        lenis.scrollTo(destination, { immediate: true, force: true });
+        ScrollTrigger.update();
+      };
 
       const tick = (time) => lenis.raf(time * 1000);
       gsap.ticker.add(tick);
@@ -92,17 +106,41 @@ export default function SmoothScroll({ children }) {
     };
 
     const configureScroll = () => {
+      window.cancelAnimationFrame(hashFrame);
       teardownScroll();
       teardownScroll = reducedMotion.matches
         ? setupNativeScroll()
         : setupLenisScroll();
       ScrollTrigger.refresh();
+
+      // The browser resolves a hash before pinned ScrollTriggers know their
+      // final ranges. Reconcile once after refresh so direct links enter a
+      // pinned story at its declared representative frame instead of an
+      // inactive/empty boundary. Regular scrolling remains unchanged.
+      hashFrame = window.requestAnimationFrame(() => {
+        if (initialHashAligned || !window.location.hash) return;
+        const targetId = decodeURIComponent(window.location.hash.slice(1));
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        const requestedProgress = Number.parseFloat(target.dataset.anchorProgress);
+        const pinTrigger = Number.isFinite(requestedProgress)
+          ? ScrollTrigger.getAll().find((candidate) => candidate.trigger === target)
+          : null;
+        const destination = pinTrigger
+          ? pinTrigger.start + (pinTrigger.end - pinTrigger.start) * Math.min(1, Math.max(0, requestedProgress))
+          : target;
+
+        initialHashAligned = true;
+        alignHash(destination);
+      });
     };
 
     configureScroll();
     reducedMotion.addEventListener('change', configureScroll);
 
     return () => {
+      window.cancelAnimationFrame(hashFrame);
       reducedMotion.removeEventListener('change', configureScroll);
       teardownScroll();
     };

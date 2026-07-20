@@ -17,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const DURATION = 12;
 const STATIC_QUERY = '(max-width: 900px), (prefers-reduced-motion: reduce)';
+const DEEP_LINK_PROGRESS = 0.32;
 const KEY_TIMES = '0;0.1;0.55;0.78;1';
 const KEY_SPLINES = '0.22 1 0.36 1;0.22 1 0.36 1;0.65 0 0.35 1;0.22 1 0.36 1';
 
@@ -154,7 +155,11 @@ export default function Motion() {
         onToggle: ({ isActive }) => {
           updateMotionFlight({ active: useWebGL && isActive });
         },
-        onUpdate: ({ progress }) => {
+        onUpdate: ({ progress, isActive }) => {
+          const active = useWebGL && isActive;
+          if (motionFlight.active !== active) {
+            updateMotionFlight({ active });
+          }
           motionFlight.progress = progress;
           if (!useWebGL || !motionFlight.ready) {
             seekSmilTimeline(svg, progress, DURATION);
@@ -182,7 +187,7 @@ export default function Motion() {
   }, [flyingCarousel]);
 
   return (
-    <section className="section motion" id="motion" ref={rootRef} data-nav-tone="light" data-motion-stage="hold" data-motion-renderer="legacy">
+    <section className="section motion" id="motion" ref={rootRef} data-anchor-progress={DEEP_LINK_PROGRESS} data-nav-tone="light" data-motion-stage="hold" data-motion-renderer="legacy">
       <div className="motion-copy" aria-hidden="true">
         <span>DESIGN IN</span>
         <span>MOTION</span>

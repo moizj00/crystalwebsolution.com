@@ -22,6 +22,11 @@ export function generateMetadata({ params }) {
       title: `${p.title} — ${p.category} Case Study | ${SITE.name}`,
       description,
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${p.title} — ${p.category} Case Study | ${SITE.name}`,
+      description,
+    },
   };
 }
 

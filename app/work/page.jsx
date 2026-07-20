@@ -3,11 +3,24 @@ import ProjectVisual from '../../components/ProjectVisual';
 import { PROJECTS } from '../../lib/projects';
 import { SITE } from '../../lib/site';
 
+const WORK_TITLE = 'Web Design Work & Case Studies';
+const WORK_DESCRIPTION =
+  'Custom web design case studies from Crystal Web Solution — real projects across finance, retail, healthcare, and logistics, with the results to show for it.';
+
 export const metadata = {
-  title: 'Web Design Work & Case Studies',
-  description:
-    'Custom web design case studies from Crystal Web Solution — real projects across finance, retail, healthcare, and logistics, with the results to show for it.',
+  title: WORK_TITLE,
+  description: WORK_DESCRIPTION,
   alternates: { canonical: '/work' },
+  openGraph: {
+    type: 'website',
+    title: `${WORK_TITLE} | ${SITE.name}`,
+    description: WORK_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${WORK_TITLE} | ${SITE.name}`,
+    description: WORK_DESCRIPTION,
+  },
 };
 
 export default function WorkIndex() {

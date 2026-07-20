@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
 
 const featureModule = await import('../lib/experienceFeatures.mjs').catch(() => ({}));
 const layoutModule = await import('../lib/flyingCarouselLayout.mjs').catch(() => ({}));
@@ -7,6 +8,17 @@ const motionModule = await import('../lib/motionFlight.mjs').catch(() => ({}));
 const studiesModule = await import('../lib/motionStudies.mjs').catch(() => ({}));
 const qualityModule = await import('../lib/renderQuality.mjs').catch(() => ({}));
 const activityModule = await import('../lib/sceneActivity.mjs').catch(() => ({}));
+const motionLayoutModule = await import('../lib/motionLayout.mjs').catch(() => ({}));
+const globalCss = readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8');
+const motionSource = readFileSync(new URL('../components/sections/Motion.jsx', import.meta.url), 'utf8');
+const navSource = readFileSync(new URL('../components/Nav.jsx', import.meta.url), 'utf8');
+
+test('navigation uses the supplied full logo and menu icon artwork', () => {
+  assert.ok(existsSync(new URL('../public/crystal-web-solution-logo.svg', import.meta.url)));
+  assert.ok(existsSync(new URL('../public/crystal-web-solution-icon.svg', import.meta.url)));
+  assert.match(navSource, /crystal-web-solution-logo\.svg/);
+  assert.match(navSource, /crystal-web-solution-icon\.svg/);
+});
 
 test('latest experience features default to the additive WebGL carousel', () => {
   assert.equal(typeof featureModule.resolveExperienceFeatures, 'function');
@@ -38,7 +50,7 @@ test('legacy query mode restores the preserved carousel implementation', () => {
   );
 });
 
-test('compact and reduced-motion modes retain the SVG carousel fallback', () => {
+test('compact devices keep WebGL off while reduced motion retains the static fallback', () => {
   assert.equal(typeof featureModule.resolveExperienceFeatures, 'function');
   if (!featureModule.resolveExperienceFeatures) return;
 
@@ -59,6 +71,62 @@ test('compact and reduced-motion modes retain the SVG carousel fallback', () => 
   assert.equal(reduced.flyingCarousel, false);
 });
 
+test('phones retain a flying SVG timeline unless motion is reduced', () => {
+  assert.equal(typeof motionLayoutModule.shouldUseStaticMotionLayout, 'function');
+  assert.equal(motionLayoutModule.DEFAULT_MOTION_LAYOUT, 'animated');
+  if (!motionLayoutModule.shouldUseStaticMotionLayout) return;
+
+  const compact = featureModule.resolveExperienceFeatures({
+    compact: true,
+    reducedMotion: false,
+    webgl: true,
+  });
+  const compactWithoutWebGL = featureModule.resolveExperienceFeatures({
+    compact: true,
+    reducedMotion: false,
+    webgl: false,
+  });
+  const compactReduced = featureModule.resolveExperienceFeatures({
+    compact: true,
+    reducedMotion: true,
+    webgl: true,
+  });
+
+  assert.equal(compact.flyingCarousel, false);
+  assert.equal(compactWithoutWebGL.flyingCarousel, false);
+  assert.equal(compactReduced.flyingCarousel, false);
+
+  assert.equal(
+    motionLayoutModule.shouldUseStaticMotionLayout({
+      reducedMotion: false,
+      flyingCarousel: compact.flyingCarousel,
+    }),
+    false,
+  );
+  assert.equal(
+    motionLayoutModule.shouldUseStaticMotionLayout({
+      reducedMotion: true,
+      flyingCarousel: compactReduced.flyingCarousel,
+    }),
+    true,
+  );
+  assert.equal(
+    motionLayoutModule.shouldUseStaticMotionLayout({
+      reducedMotion: true,
+      flyingCarousel: true,
+    }),
+    false,
+  );
+});
+
+test('reduced-motion CSS blocks the SMIL flight before hydration', () => {
+  const legacyReducedSelector = ".motion:not([data-motion-renderer='webgl'])";
+
+  assert.ok(globalCss.includes(`${legacyReducedSelector} .motion-smil-stage { display: none; }`));
+  assert.ok(globalCss.includes(`${legacyReducedSelector} .motion-static-grid {`));
+  assert.ok(motionSource.includes('className="motion-static-grid" data-motion-static-grid aria-hidden="false"'));
+});
+
 test('explicit full-motion preview opts into the WebGL carousel', () => {
   assert.equal(typeof featureModule.resolveExperienceFeatures, 'function');
   if (!featureModule.resolveExperienceFeatures) return;
@@ -71,6 +139,15 @@ test('explicit full-motion preview opts into the WebGL carousel', () => {
       webgl: true,
     }),
     { flyingCarousel: true },
+  );
+  assert.deepEqual(
+    featureModule.resolveExperienceFeatures({
+      search: '?motion=full',
+      compact: true,
+      reducedMotion: false,
+      webgl: true,
+    }),
+    { flyingCarousel: false },
   );
 });
 
@@ -90,7 +167,7 @@ test('carousel query switch and missing WebGL fail closed', () => {
   assert.deepEqual(
     featureModule.resolveExperienceFeatures({
       search: '',
-      compact: false,
+      compact: true,
       reducedMotion: false,
       webgl: false,
     }),
@@ -195,21 +272,87 @@ test('recording-derived phases finish the grid early and hold it', () => {
   assert.deepEqual(layoutModule.sampleFlyingCard(card, 0.94), card.target);
 });
 
-test('carousel departure clears the frame instead of leaving bright specks', () => {
+test('carousel cards enter and settle one by one with equal smooth timing windows', () => {
+  assert.equal(typeof studiesModule.createMotionStudyTiming, 'function');
+  if (!studiesModule.createMotionStudyTiming) return;
+
   const layout = layoutModule.createFlyingCarouselLayout({ viewportWidth: 10 });
-  const departing = layout.map((card) =>
-    layoutModule.sampleFlyingCard(card, 0.535),
+  assert.deepEqual(
+    layout.map((card) => Number(card.revealDelay.toFixed(3))),
+    [0, 0.012, 0.024, 0.036, 0.048, 0.06],
   );
-  const vanished = layout.map((card) =>
-    layoutModule.sampleFlyingCard(card, 0.56),
+  assert.deepEqual(
+    layout.map((card) => Number(card.settleDelay.toFixed(3))),
+    [0, 0.018, 0.036, 0.054, 0.072, 0.09],
   );
 
-  // The departure remains readable through its midpoint, then alternates
-  // across both outer edges and is effectively invisible before re-entry.
-  assert.ok(departing.some((sample) => sample.scale > 0.24));
-  assert.ok(vanished.every((sample) => sample.scale < 0.035));
-  assert.ok(vanished.some((sample) => sample.position[0] < -7));
-  assert.ok(vanished.some((sample) => sample.position[0] > 7));
+  const revealMoment = layoutModule.FLIGHT_PHASES.hold + 0.045;
+  const revealScales = layout.map((card) =>
+    layoutModule.sampleFlyingCard(card, revealMoment).scale,
+  );
+  assert.ok(revealScales[0] > revealScales[2]);
+  assert.ok(revealScales[2] > revealScales[4]);
+
+  const timings = studiesModule.MOTION_STUDIES.map((_, index) =>
+    studiesModule.createMotionStudyTiming(index),
+  );
+  const starts = timings.map(({ revealStart }) => revealStart);
+  const settles = timings.map(({ settleStart }) => settleStart);
+  assert.ok(starts.every((value, index) => index === 0 || value > starts[index - 1]));
+  assert.ok(settles.every((value, index) => index === 0 || value > settles[index - 1]));
+  timings.forEach(({ revealStart, revealEnd }) => {
+    assert.ok(Math.abs(revealEnd - revealStart - 0.07) < 1e-10);
+  });
+});
+
+test('returning carousel cards stay face-readable while assembling the grid', () => {
+  const { recede, grid } = layoutModule.FLIGHT_PHASES;
+  const maxVisibleYaw = 0.58;
+
+  for (const viewportWidth of [10, 7.2]) {
+    const layout = layoutModule.createFlyingCarouselLayout({ viewportWidth });
+    for (const card of layout) {
+      assert.ok(
+        card.flyby.scale <= 1.3 * card.orbit.scaleFit,
+        `card ${card.id} flyby scale ${card.flyby.scale} exceeds the readable emphasis cap at viewport ${viewportWidth}`,
+      );
+
+      for (let step = 0; step <= 120; step += 1) {
+        const progress = recede + (grid - recede) * (step / 120);
+        const sample = layoutModule.sampleFlyingCard(card, progress);
+        if (sample.scale <= 0.2 * card.orbit.scaleFit) continue;
+
+        assert.ok(
+          Math.abs(sample.rotation[1]) <= maxVisibleYaw,
+          `card ${card.id} becomes edge-on at progress ${progress.toFixed(4)} with yaw ${sample.rotation[1].toFixed(4)} at viewport ${viewportWidth}`,
+        );
+      }
+    }
+  }
+});
+
+test('carousel departure clears the frame without collapsing the flying cards', () => {
+  for (const viewportWidth of [10, 7.2]) {
+    const layout = layoutModule.createFlyingCarouselLayout({ viewportWidth });
+    const departing = layout.map((card) =>
+      layoutModule.sampleFlyingCard(card, 0.535),
+    );
+    const cleared = layout.map((card) =>
+      layoutModule.sampleFlyingCard(card, 0.56),
+    );
+
+    // The departure remains readable through its midpoint, then clears the
+    // viewport across both outer edges without shrinking out of existence.
+    assert.ok(departing.some((sample) => sample.scale > 0.24 * layout[0].orbit.scaleFit));
+    cleared.forEach((sample, index) => {
+      const card = layout[index];
+      const halfCardWidth = layoutModule.CARD_WIDTH * sample.scale * 0.5;
+      assert.ok(sample.scale >= 0.2 * card.orbit.scaleFit);
+      assert.ok(Math.abs(sample.position[0]) - halfCardWidth > viewportWidth * 0.5);
+    });
+    assert.ok(cleared.some((sample) => sample.position[0] < 0));
+    assert.ok(cleared.some((sample) => sample.position[0] > 0));
+  }
 });
 
 test('shared motion studies preserve the six legacy study identities', () => {
@@ -344,8 +487,8 @@ test('motion lifecycle distinguishes dormant preparation from active flight', ()
   );
 });
 
-test('carousel compact breakpoint has no fractional-DPR gap below 768px', () => {
-  assert.equal(featureModule.COMPACT_QUERY, '(max-width: 767.5px)');
+test('carousel compact breakpoint protects the lightweight phone renderer below 768px', () => {
+  assert.equal(featureModule.COMPACT_QUERY, '(max-width: 767.99px)');
 });
 
 test('motion flight observers receive readiness and active-state changes', () => {

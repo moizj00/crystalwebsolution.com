@@ -295,6 +295,38 @@ html[data-cws-intro-seen='1'] .loader {
   flex-shrink: 1;
   line-height: 1;
 }
+.nav-logo-art {
+  position: relative;
+  display: block;
+  width: clamp(12rem, 18vw, 17.5rem);
+  height: clamp(1.8rem, 2.7vw, 2.65rem);
+}
+.nav-logo-art img {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  display: block;
+  width: auto;
+  transition: opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+}
+.nav-logo-art-full {
+  height: 100%;
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+.nav-logo-art-icon {
+  height: clamp(1.35rem, 2.1vw, 1.8rem);
+  opacity: 0;
+  transform: translateY(-50%) scale(0.92);
+}
+.nav-logo-art.is-menu-open .nav-logo-art-full {
+  opacity: 0;
+  transform: translateY(-50%) scale(0.96);
+}
+.nav-logo-art.is-menu-open .nav-logo-art-icon {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
 .nav-logo-monogram {
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 2.4vw, 2.15rem);
@@ -317,6 +349,7 @@ html[data-cws-intro-seen='1'] .loader {
 .nav-right { display: flex; align-items: center; gap: 0.8rem; }
 .nav-on-light .nav-logo-monogram,
 .nav-on-light .nav-logo-name { color: #151612; }
+.nav-on-light .nav-logo-art img { filter: invert(1); }
 .nav-on-light .btn-ghost {
   color: #151612;
   border-color: rgba(21, 22, 18, 0.32);
@@ -328,6 +361,7 @@ html[data-cws-intro-seen='1'] .loader {
 
 @media (max-width: 767.5px) {
   .nav-logo { gap: 0.65rem; }
+  .nav-logo-art { width: 12rem; height: 1.8rem; }
   .nav-logo-name { font-size: 0.68rem; }
   .nav-right .btn-ghost { display: none; }
 }

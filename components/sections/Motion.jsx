@@ -4,7 +4,10 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motionStageAt, seekSmilTimeline } from '../../lib/smilTimeline.mjs';
-import { MOTION_STUDIES } from '../../lib/motionStudies.mjs';
+import {
+  createMotionStudyTiming,
+  MOTION_STUDIES,
+} from '../../lib/motionStudies.mjs';
 import {
   motionFlight,
   subscribeMotionFlight,
@@ -12,21 +15,26 @@ import {
 } from '../../lib/motionFlight.mjs';
 import { pinnedRanges } from '../../lib/pinnedRanges';
 import { useExperienceFeatures } from '../../lib/useExperienceFeatures';
+import {
+  DEFAULT_MOTION_LAYOUT,
+  shouldUseStaticMotionLayout,
+} from '../../lib/motionLayout.mjs';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const DURATION = 12;
-const STATIC_QUERY = '(max-width: 900px), (prefers-reduced-motion: reduce)';
+const STATIC_QUERY = '(prefers-reduced-motion: reduce)';
 const DEEP_LINK_PROGRESS = 0.32;
-const KEY_TIMES = '0;0.1;0.55;0.78;1';
-const KEY_SPLINES = '0.22 1 0.36 1;0.22 1 0.36 1;0.65 0 0.35 1;0.22 1 0.36 1';
+const KEY_SPLINES = '0.22 1 0.36 1;0.22 1 0.36 1;0.65 0 0.35 1;0.22 1 0.36 1;0.22 1 0.36 1';
 
 function StudyCard({ study, index }) {
+  const timing = createMotionStudyTiming(index);
+
   return (
     <g className="motion-study" data-study={study.id}>
-      <animateMotion dur={`${DURATION}s`} begin="0s" fill="freeze" path={study.path} keyTimes={KEY_TIMES} keyPoints="0;0;0.56;0.82;1" calcMode="linear" rotate="auto" />
-      <animateTransform attributeName="transform" additive="sum" type="scale" dur={`${DURATION}s`} begin="0s" fill="freeze" values="0.5;0.5;1.08;0.94;1" keyTimes={KEY_TIMES} calcMode="spline" keySplines={KEY_SPLINES} />
-      <animate attributeName="opacity" dur={`${DURATION}s`} begin="0s" fill="freeze" values="0;0;1;1;1" keyTimes={KEY_TIMES} />
+      <animateMotion dur={`${DURATION}s`} begin="0s" fill="freeze" path={study.path} keyTimes={timing.motionKeyTimes} keyPoints="0;0;0.56;0.82;1;1" calcMode="linear" rotate="auto" />
+      <animateTransform attributeName="transform" additive="sum" type="scale" dur={`${DURATION}s`} begin="0s" fill="freeze" values="0.5;0.5;1.08;0.94;1;1" keyTimes={timing.motionKeyTimes} calcMode="spline" keySplines={KEY_SPLINES} />
+      <animate attributeName="opacity" dur={`${DURATION}s`} begin="0s" fill="freeze" values="0;0;1;1;1;1" keyTimes={timing.opacityKeyTimes} />
       <g transform="translate(-160 -105)">
         <rect width="320" height="210" rx="6" fill="#f4f3ef" stroke="#11130f" strokeWidth="1.5" />
         <rect x="12" y="12" width="296" height="132" rx="3" fill={study.color} />
@@ -69,7 +77,10 @@ export default function Motion() {
 
     const media = window.matchMedia(STATIC_QUERY);
     const staticGrid = root.querySelector('[data-motion-static-grid]');
-    let staticLayout = media.matches;
+    let staticLayout = shouldUseStaticMotionLayout({
+      reducedMotion: media.matches,
+      flyingCarousel,
+    });
     let useWebGL = flyingCarousel && !staticLayout;
     let trigger = null;
     let range = null;
@@ -111,7 +122,10 @@ export default function Motion() {
       // `?motion=full` deliberately sets flyingCarousel even when the OS asks
       // for reduced motion, giving QA an explicit full-flight preview. Normal
       // reduced-motion visits still resolve to the static grid.
-      staticLayout = media.matches && !flyingCarousel;
+      staticLayout = shouldUseStaticMotionLayout({
+        reducedMotion: media.matches,
+        flyingCarousel,
+      });
       useWebGL = flyingCarousel && !staticLayout;
       root.dataset.motionLayout = staticLayout ? 'static' : 'animated';
       root.dataset.motionStage = staticLayout ? 'grid' : 'hold';
@@ -187,7 +201,7 @@ export default function Motion() {
   }, [flyingCarousel]);
 
   return (
-    <section className="section motion" id="motion" ref={rootRef} data-anchor-progress={DEEP_LINK_PROGRESS} data-nav-tone="light" data-motion-stage="hold" data-motion-renderer="legacy">
+    <section className="section motion" id="motion" ref={rootRef} data-anchor-progress={DEEP_LINK_PROGRESS} data-nav-tone="light" data-motion-layout={DEFAULT_MOTION_LAYOUT} data-motion-stage="hold" data-motion-renderer="legacy">
       <div className="motion-copy" aria-hidden="true">
         <span>DESIGN IN</span>
         <span>MOTION</span>
@@ -198,7 +212,7 @@ export default function Motion() {
       <svg ref={svgRef} className="motion-smil-stage" viewBox="0 0 1440 900" role="img" aria-label="Six Crystal Web Solution studies orbit into a project grid">
         {MOTION_STUDIES.map((study, index) => <StudyCard key={study.id} study={study} index={index} />)}
       </svg>
-      <div className="motion-static-grid" data-motion-static-grid aria-hidden="true">
+      <div className="motion-static-grid" data-motion-static-grid aria-hidden="false">
         {MOTION_STUDIES.map((study, index) => (
           <StaticStudyCard key={study.id} study={study} index={index} />
         ))}

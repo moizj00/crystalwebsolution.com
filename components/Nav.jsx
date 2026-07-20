@@ -30,9 +30,23 @@ export default function Nav() {
   return (
     <>
       <header className={`nav ${onLightSurface && !open ? 'nav-on-light' : ''}`}>
-        <Link href="/" className="nav-logo" data-cursor="Home">
-          <span className="nav-logo-monogram" aria-hidden="true">CWS</span>
-          <span className="nav-logo-name">Crystal Web Solution</span>
+        <Link href="/" className="nav-logo" data-cursor="Home" aria-label="Crystal Web Solution home">
+          <span className={`nav-logo-art ${open ? 'is-menu-open' : ''}`} aria-hidden="true">
+            <img
+              className="nav-logo-art-full"
+              src="/crystal-web-solution-logo.svg"
+              alt=""
+              width="1616"
+              height="243"
+            />
+            <img
+              className="nav-logo-art-icon"
+              src="/crystal-web-solution-icon.svg"
+              alt=""
+              width="647"
+              height="255"
+            />
+          </span>
         </Link>
         <div className="nav-right">
           <Magnetic>

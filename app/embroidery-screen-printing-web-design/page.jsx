@@ -107,11 +107,10 @@ export default function EmbroideryScreenPrintingWebDesign() {
             in a screenshot.
           </p>
           <p>
-            {SITE.name} is part of the Crystal family of brands that also runs Crystal
-            Digitizing — the CRM embroidery shops and screen printers already log into to place
-            digitizing and vector orders and pull DST files. We&rsquo;re not guessing at what a
-            reorder, a price break, or a B2B account looks like from the outside. It&rsquo;s the
-            same order logic our sibling product runs every day, for the same trade.
+            {SITE.name} offers custom web design, e-commerce development, software development,
+            AI development, and portal integration. For a decoration business, we apply those
+            capabilities to the parts that matter here: structured catalogs, account access,
+            order history, and repeat-order workflows.
           </p>
 
           <h2>What we actually build</h2>

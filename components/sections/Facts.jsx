@@ -3,21 +3,23 @@
 import SectionReveal from '../SectionReveal';
 import Marquee from '../Marquee';
 import { STAGGER_ROW } from '../../lib/easing';
+import { VERIFIED_CLIENTS } from '../../lib/clients';
+import { REVIEW_STATS } from '../../lib/reviews';
 
 const FACTS = [
-  { num: '140+', label: 'projects shipped', note: 'Across web, brand, 3D, motion and AI systems — eight disciplines, one standard.' },
-  { num: '088%', label: 'clients return', note: 'Roughly nine in ten come back for a second build. We treat the first as the start.' },
-  { num: '014', label: 'specialists in-house', note: 'Strategy, brand, 3D, front-end, motion and AI — no outsourced hand-off.' },
-  { num: '010', label: 'years deep', note: 'Shipping since 2016. A decade of craft, compounding.' },
+  { num: String(REVIEW_STATS.total), label: 'reviews supplied', note: 'Every supplied review is published in the archive, including critical feedback and company replies.' },
+  { num: `${REVIEW_STATS.average}/5`, label: 'archive average', note: 'Calculated directly from the ratings in the supplied twenty-review record.' },
+  { num: String(REVIEW_STATS.positive), label: 'four- or five-star reviews', note: 'Seventeen of the supplied reviews carry a rating of four or five stars.' },
+  { num: String(VERIFIED_CLIENTS.length).padStart(2, '0'), label: 'named original clients', note: 'Ravivo Kaufman, Kristin Stein, and Porsha Patterson were identified directly as original clients.' },
 ];
 
 export default function Facts() {
   return (
     <section className="section facts" id="facts" data-quiet>
       <div className="text-plate">
-        <p className="eyebrow"><SectionReveal as="span" direction="left">Key facts</SectionReveal></p>
+        <p className="eyebrow"><SectionReveal as="span" direction="left">Documented record</SectionReveal></p>
         <SectionReveal as="h2" direction="left" className="section-title">
-          A snapshot of experience and impact.
+          Numbers the supplied record can prove.
         </SectionReveal>
       </div>
       <div className="facts-grid">
@@ -30,7 +32,7 @@ export default function Facts() {
           </SectionReveal>
         ))}
       </div>
-      <Marquee text="Clarity · Craft · Impact" className="facts-marquee" baseSpeed={40} />
+      <Marquee text="20 supplied reviews · 4.3 average · 17 positive ratings · 3 named original clients" className="facts-marquee" baseSpeed={40} />
     </section>
   );
 }

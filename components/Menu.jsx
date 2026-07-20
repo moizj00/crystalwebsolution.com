@@ -112,8 +112,8 @@ export default function Menu({ open, onClose }) {
           </div>
         )}
         <div>
-          <p className="menu-meta-label">Est. {SITE.est}</p>
-          <p className="menu-meta-note">{SITE.years} years shaping<br />digital direction.</p>
+          <p className="menu-meta-label">Crystal Web Solution</p>
+          <p className="menu-meta-note">Web, brand, motion<br />and automation.</p>
         </div>
       </div>
     </nav>

@@ -3,14 +3,14 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { PROJECTS } from '../../lib/projects';
+import { VERIFIED_CLIENTS } from '../../lib/clients';
 import { focusBeacon } from '../../lib/focusBeacon';
 import { scrollState } from '../../lib/scrollState';
 import { beatProgress, BEAT_IDS } from '../../lib/beatProgress';
 import { isBeatProgressActive } from '../../lib/sceneActivity.mjs';
 
-// Glass slabs — one per project — drifting around the showcase depth.
-// Hovering (or keyboard-focusing) a project card in the DOM
+// Glass slabs drift around the client-record section depth. Hovering (or
+// keyboard-focusing) a client card in the DOM
 // (components/sections/Showcase.jsx) writes lib/focusBeacon.js; the
 // matching slab brightens toward its palette glow while the rest recede —
 // emissive only, so the drift/rotation system stays untouched. Showcase
@@ -28,7 +28,7 @@ export default function ShowcaseBoxes({ position = [0, 0, 0], animate = true }) 
   const group = useRef();
 
   const colors = useMemo(
-    () => PROJECTS.map((p) => new THREE.Color(p.palette[0])),
+    () => VERIFIED_CLIENTS.map((client) => new THREE.Color(client.palette[0])),
     []
   );
 

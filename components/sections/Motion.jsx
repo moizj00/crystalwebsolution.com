@@ -203,13 +203,13 @@ export default function Motion() {
   return (
     <section className="section motion" id="motion" ref={rootRef} data-anchor-progress={DEEP_LINK_PROGRESS} data-nav-tone="light" data-motion-layout={DEFAULT_MOTION_LAYOUT} data-motion-stage="hold" data-motion-renderer="legacy">
       <div className="motion-copy" aria-hidden="true">
-        <span>DESIGN IN</span>
+        <span>CWS IN</span>
         <span>MOTION</span>
       </div>
-      <h2 className="sr-only">Design in motion</h2>
-      <p className="motion-caption">Concepts, explorations, and interface experiments from our creative process.</p>
-      <a href="/#contact" className="motion-link" data-cursor="Hello">View the lab <span aria-hidden="true">→</span></a>
-      <svg ref={svgRef} className="motion-smil-stage" viewBox="0 0 1440 900" role="img" aria-label="Six Crystal Web Solution studies orbit into a project grid">
+      <h2 className="sr-only">Crystal Web Solution in motion</h2>
+      <p className="motion-caption">This site is the proof: one continuous 3D scene, scroll-linked motion, responsive fallbacks, and accessible content—built by Crystal Web Solution.</p>
+      <a href="/#approach" className="motion-link" data-cursor="Process">See our process <span aria-hidden="true">→</span></a>
+      <svg ref={svgRef} className="motion-smil-stage" viewBox="0 0 1440 900" role="img" aria-label="Six Crystal Web Solution capabilities orbit into a grid">
         {MOTION_STUDIES.map((study, index) => <StudyCard key={study.id} study={study} index={index} />)}
       </svg>
       <div className="motion-static-grid" data-motion-static-grid aria-hidden="false">

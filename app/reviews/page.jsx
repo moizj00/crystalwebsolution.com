@@ -110,7 +110,7 @@ export default function ReviewsPage() {
         <section className="reviews-close">
           <p className="eyebrow">From idea to outcome</p>
           <h2>Let&apos;s make something rare.</h2>
-          <p>Send us your brief. We reply within two business days with a straight read on scope, timeline, cost, and the first move if it&apos;s a fit.</p>
+          <p>Send us your brief. We&apos;ll give you a straight read on scope, timeline, cost, and the first move if it&apos;s a fit.</p>
           <a href={`mailto:${SITE.email}`} className="btn btn-solid">Start a project <span aria-hidden="true">→</span></a>
         </section>
       </main>

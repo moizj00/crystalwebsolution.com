@@ -355,14 +355,14 @@ test('carousel departure clears the frame without collapsing the flying cards', 
   }
 });
 
-test('shared motion studies preserve the six legacy study identities', () => {
+test('shared motion studies name six Crystal Web Solution capabilities', () => {
   assert.ok(Array.isArray(studiesModule.MOTION_STUDIES));
   if (!Array.isArray(studiesModule.MOTION_STUDIES)) return;
 
   assert.equal(studiesModule.MOTION_STUDIES.length, 6);
   assert.deepEqual(
     studiesModule.MOTION_STUDIES.map((study) => study.id),
-    ['signal', 'field', 'type', 'commerce', 'layers', 'motion'],
+    ['web-design', 'development', 'brand', 'motion', 'ai-automation', 'workflow-automation'],
   );
 });
 

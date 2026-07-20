@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { PROJECTS } from '../../lib/projects';
+import { VERIFIED_CLIENTS } from '../../lib/clients';
 import { seekSmilTimeline, workStageAt } from '../../lib/smilTimeline.mjs';
 import { pinnedRanges } from '../../lib/pinnedRanges';
 import { blurSlab, focusSlab } from '../../lib/focusBeacon';
@@ -80,14 +80,14 @@ function ProjectArtwork({ index, accent }) {
   );
 }
 
-function StaticProjectCard({ project, index }) {
+function StaticClientCard({ client, index }) {
   const accent = CARD_ACCENTS[index];
 
   return (
     <a
-      href={`/work/${project.slug}`}
+      href={`/work#${client.id}`}
       className="showcase-static-card"
-      aria-label={`View ${project.title} concept study`}
+      aria-label={`View the client record for ${client.company}`}
       data-showcase-static-card
       tabIndex={-1}
     >
@@ -95,9 +95,9 @@ function StaticProjectCard({ project, index }) {
         <ProjectArtwork index={index} accent={accent} />
       </svg>
       <span className="showcase-static-body">
-        <strong>{project.title}</strong>
-        <span>{project.category} / {project.year}</span>
-        <span>OPEN CONCEPT STUDY →</span>
+        <strong>{client.company}</strong>
+        <span>{client.person}{client.role ? ` / ${client.role}` : ''}</span>
+        <span>OPEN CLIENT RECORD →</span>
       </span>
     </a>
   );
@@ -106,8 +106,7 @@ function StaticProjectCard({ project, index }) {
 export default function Showcase() {
   const rootRef = useRef(null);
   const svgRef = useRef(null);
-  const terra = PROJECTS.find((project) => project.slug === 'terra-verde');
-  const featured = [terra, ...PROJECTS.filter((project) => project !== terra)].filter(Boolean).slice(0, 5);
+  const featured = VERIFIED_CLIENTS;
   const belt = buildBeltKeyframes(Math.max(featured.length - VISIBLE_CARDS, 0), CARD_STEP);
 
   useEffect(() => {
@@ -220,20 +219,20 @@ export default function Showcase() {
   return (
     <section className="section showcase showcase-smil" id="work" ref={rootRef} data-nav-tone="light" data-work-stage="building">
       <div className="showcase-smil-heading">
-        <p>Selected work &amp; explorations</p>
-        <h2>Every rebuild starts with a problem worth solving.</h2>
-        <p className="showcase-smil-sub">Explore websites, identities, motion systems, and automations shaped around a clear business problem—the work, the decisions, and what changed after launch.</p>
+        <p>Named client record</p>
+        <h2>Real names. Real businesses. No invented case studies.</h2>
+        <p className="showcase-smil-sub">These three original client relationships were supplied directly to Crystal Web Solution. Where a review exists, it is linked in full and left in the client&apos;s own words.</p>
       </div>
-      <svg ref={svgRef} className="showcase-smil-stage" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Selected projects move horizontally before service curtains close">
+      <svg ref={svgRef} className="showcase-smil-stage" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Verified Crystal Web Solution client records move horizontally before service curtains close">
         <g>
-          {featured.map((project, index) => {
+          {featured.map((client, index) => {
             const x = CARD_START_X + index * CARD_STEP;
             const accent = CARD_ACCENTS[index];
             return (
               <a
-                key={project.slug}
-                href={`/work/${project.slug}`}
-                aria-label={`View ${project.title} concept study`}
+                key={client.id}
+                href={`/work#${client.id}`}
+                aria-label={`View the client record for ${client.company}`}
                 data-showcase-card
                 onPointerEnter={() => focusSlab(index)}
                 onPointerLeave={blurSlab}
@@ -246,9 +245,9 @@ export default function Showcase() {
                   <g transform={`scale(${CARD_SCALE})`}>
                     <ProjectArtwork index={index} accent={accent} />
                   </g>
-                  <text x="28" y="400" className="showcase-smil-title">{project.title}</text>
-                  <text x="28" y="438" className="showcase-smil-meta">{project.category} / {project.year}</text>
-                  <text x="28" y="464" className="showcase-smil-open">OPEN CONCEPT STUDY →</text>
+                  <text x="28" y="400" className="showcase-smil-title">{client.company}</text>
+                  <text x="28" y="438" className="showcase-smil-meta">{client.person}{client.role ? ` / ${client.role}` : ''}</text>
+                  <text x="28" y="464" className="showcase-smil-open">OPEN CLIENT RECORD →</text>
                 </g>
               </a>
             );
@@ -263,8 +262,8 @@ export default function Showcase() {
         ))}
       </svg>
       <div className="showcase-static-grid" data-showcase-static-grid aria-hidden="true">
-        {featured.map((project, index) => (
-          <StaticProjectCard key={project.slug} project={project} index={index} />
+        {featured.map((client, index) => (
+          <StaticClientCard key={client.id} client={client} index={index} />
         ))}
       </div>
       <a href="/work" className="showcase-smil-all">View all work <span aria-hidden="true">→</span></a>

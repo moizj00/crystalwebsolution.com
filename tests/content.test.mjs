@@ -27,9 +27,10 @@ test('homepage excerpts are sourced from the full archive', () => {
   assert.ok(FEATURED_REVIEWS.every((review) => archiveIds.has(review.id)));
 });
 
-test('global content does not publish placeholder contact destinations', () => {
+test('global content publishes verified contact details without placeholder socials', () => {
   assert.equal(SITE.name, 'Crystal Web Solution');
-  assert.equal(SITE.phone, null);
+  assert.equal(SITE.phone, '+1 917-463-4214');
+  assert.equal(SITE.city, 'Manassas, Virginia • Sharjah, UAE');
   assert.deepEqual(SITE.socials, []);
   assert.ok(SITE.nav.some((item) => item.href === '/reviews'));
 });

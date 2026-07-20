@@ -1,5 +1,3 @@
-import { PROJECTS } from '../lib/projects';
-
 const SITE_URL = 'https://crystalwebsolution.com';
 
 export default function sitemap() {
@@ -14,11 +12,5 @@ export default function sitemap() {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
-    ...PROJECTS.map((p) => ({
-      url: `${SITE_URL}/work/${p.slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    })),
   ];
 }

@@ -1288,7 +1288,7 @@ html[data-cws-intro-seen='1'] .loader {
   padding-top: 2rem;
 }
 
-/* ---------- subpages (/work, case studies) ---------- */
+/* ---------- subpages (/work, reviews, service pages) ---------- */
 .subpage {
   position: relative;
   z-index: 1;
@@ -1354,6 +1354,9 @@ html[data-cws-intro-seen='1'] .loader {
 .work-row-meta h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 0.5rem; }
 .work-row-meta p { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
 .work-row-summary { margin-top: 1rem; font-family: var(--font-body) !important; font-size: 0.95rem !important; line-height: 1.7; letter-spacing: 0 !important; }
+.client-work-row { scroll-margin-top: 8rem; }
+.client-work-links { display: flex; flex-wrap: wrap; gap: 0.8rem 1.4rem; margin-top: 1.2rem; }
+.client-work-links a { color: var(--cyan); text-decoration: underline; text-underline-offset: 0.25em; }
 
 .case-summary { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--muted); line-height: 1.7; max-width: 56ch; margin-bottom: 2rem; }
 .case-services { display: flex; flex-wrap: wrap; gap: 0.7rem; list-style: none; margin-bottom: 3rem; }

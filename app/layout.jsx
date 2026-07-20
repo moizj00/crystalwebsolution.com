@@ -43,12 +43,12 @@ const JSON_LD = {
   name: SITE.name,
   url: SITE_URL,
   email: SITE.email,
-  foundingDate: SITE.est,
+  telephone: SITE.phone,
   description:
     'Digital studio designing distinctive websites, brand systems, motion experiences, and AI automation.',
   slogan: SITE.tagline,
   knowsAbout: ['web design', 'web development', 'branding', 'logo design', 'AI automation', 'motion design'],
-  areaServed: 'US',
+  areaServed: ['US', 'AE'],
 };
 
 export const viewport = {

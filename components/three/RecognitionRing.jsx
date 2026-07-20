@@ -9,7 +9,7 @@ import { beatProgress, BEAT_IDS } from '../../lib/beatProgress';
 import { isBeatProgressActive } from '../../lib/sceneActivity.mjs';
 
 // The recognition beat: four medal-toruses drift in a loose ring. Hovering
-// an award row in the DOM (components/sections/Recognition.jsx) writes
+// a proof-record row in the DOM (components/sections/Recognition.jsx) writes
 // lib/chime.js; this reads it every frame, brightens the matching medal,
 // and ejects a small particle spark-burst from it — the same additive-blend
 // particle language as the hero's click-blast (components/three/Sparks.jsx),

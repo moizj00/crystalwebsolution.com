@@ -49,9 +49,10 @@ export default function SmoothScroll({ children }) {
     const setupLenisScroll = () => {
       // Keep the journey smooth without adding a long, detached-feeling tail
       // to every wheel gesture. Pinned beats provide the intentional pauses.
+      const isLowEndDevice = navigator.deviceMemory && navigator.deviceMemory <= 4;
       const lenis = new Lenis({
-        duration: 1.15,
-        lerp: 0.12,
+        duration: isLowEndDevice ? 0.9 : 1.15,
+        lerp: isLowEndDevice ? 0.08 : 0.12,
         smoothWheel: true,
         wheelMultiplier: 1,
         touchMultiplier: 1,

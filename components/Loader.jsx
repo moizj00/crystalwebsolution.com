@@ -43,10 +43,16 @@ export default function Loader() {
       },
     });
 
+    // Reduce animation time for users on slow connections
+    const isSlowConnection = navigator.connection?.effectiveType === '4g' 
+      ? false 
+      : navigator.connection?.effectiveType === '3g';
+    const countDuration = isSlowConnection ? 0.45 : 0.65;
+
     const count = { v: 0 };
     tl.to(count, {
       v: 100,
-      duration: 0.65,
+      duration: countDuration,
       ease: 'power2.inOut',
       onUpdate: () => {
         if (counter.current) counter.current.textContent = String(Math.round(count.v)).padStart(3, '0');

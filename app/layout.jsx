@@ -2,9 +2,22 @@ import './globals.css';
 import { Space_Grotesk, Inter, Space_Mono } from 'next/font/google';
 import { SITE } from '../lib/site';
 
-const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display' });
-const inter = Inter({ subsets: ['latin'], variable: '--font-body' });
-const mono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-mono' });
+const grotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+const mono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 const SITE_URL = 'https://crystalwebsolution.com';
 
@@ -55,6 +68,10 @@ const JSON_LD = {
 
 export const viewport = {
   themeColor: '#04060c',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({ children }) {

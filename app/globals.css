@@ -1423,5 +1423,11 @@ html[data-cws-intro-seen='1'] .loader {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Disable all transitions and animations for users who prefer reduced motion */
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .recognition-year-stack { transition: none; }
+  .btn { transition: none; }
+  .btn-arrow { transition: none; }
+  .link-underline { transition: none; }
+  .decode .char { will-change: auto; }
 }

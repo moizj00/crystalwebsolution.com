@@ -17,7 +17,7 @@ export const metadata = {
     description: WORK_DESCRIPTION,
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: `${WORK_TITLE} | ${SITE.name}`,
     description: WORK_DESCRIPTION,
   },
@@ -27,9 +27,16 @@ export default function WorkIndex() {
   return (
     <div className="subpage">
       <header className="nav">
-        <Link href="/" className="nav-logo" data-cursor="Home">
-          <span className="nav-logo-monogram" aria-hidden="true">CWS</span>
-          <span className="nav-logo-name">{SITE.name}</span>
+        <Link href="/" className="nav-logo" data-cursor="Home" aria-label="Crystal Web Solution home">
+          <span className="nav-logo-art" aria-hidden="true">
+            <img
+              className="nav-logo-art-full"
+              src="/crystal-web-solution-logo.svg"
+              alt=""
+              width="1616"
+              height="243"
+            />
+          </span>
         </Link>
         <Link href="/#contact" className="btn btn-ghost" data-cursor="Say hi">let&apos;s talk</Link>
       </header>

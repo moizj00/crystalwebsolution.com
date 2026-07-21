@@ -36,7 +36,7 @@ const FRAGMENT_SHADER = `
 `;
 
 // Ambient dust drifting through the whole camera volume.
-export default function Particles({ count = 900, animate = true }) {
+export default function Particles({ count = 450, animate = true }) {
   const points = useRef();
 
   const { positions, seeds, uniforms } = useMemo(() => {
@@ -85,7 +85,9 @@ export default function Particles({ count = 900, animate = true }) {
         fragmentShader={FRAGMENT_SHADER}
         transparent
         depthWrite={false}
+        depthTest={true}
         blending={THREE.AdditiveBlending}
+        fog={true}
       />
     </points>
   );

@@ -108,8 +108,14 @@ export default function Scene() {
   );
 
   const glConfig = useMemo(
-    () => ({ antialias: true, alpha: true, powerPreference: 'high-performance' }),
-    []
+    () => ({
+      antialias: quality.tier === 'high',
+      alpha: true,
+      powerPreference: 'high-performance',
+      stencil: false,
+      precision: quality.tier === 'eco' ? 'lowp' : 'mediump',
+    }),
+    [quality.tier]
   );
 
   return (

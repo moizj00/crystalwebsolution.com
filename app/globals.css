@@ -1013,6 +1013,9 @@ html[data-cws-intro-seen='1'] .loader {
   background: rgba(215, 214, 210, 0.04);
   color: #292a27;
 }
+.motion[data-motion-renderer='webgl'][data-motion-stage='grid'] {
+  background: transparent;
+}
 .motion[data-motion-renderer='webgl']::after {
   background-image: linear-gradient(rgba(36, 38, 34, 0.045) 1px, transparent 1px);
 }

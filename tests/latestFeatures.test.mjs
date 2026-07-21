@@ -194,6 +194,22 @@ test('carousel layout is deterministic and lands six landscape cards in a 3 by 2
   assert.ok(first.some((card) => Math.abs(card.scatter.position[2]) >= 4));
 });
 
+test('settled carousel grid is enlarged and unobscured after the flight', () => {
+  const layout = layoutModule.createFlyingCarouselLayout({ viewportWidth: 10 });
+  const narrowLayout = layoutModule.createFlyingCarouselLayout({
+    viewportWidth: 10,
+    viewportPixelWidth: 820,
+  });
+
+  assert.equal(layoutModule.SETTLED_SCALE_BOOST, 1.18);
+  assert.ok(layout.every((card) => card.target.scale === 1.18));
+  assert.ok(narrowLayout.every((card) => card.target.scale === 1));
+  assert.match(
+    globalCss,
+    /motion\[data-motion-renderer='webgl'\]\[data-motion-stage='grid'\]\s*\{[^}]*background:\s*transparent;/s,
+  );
+});
+
 test('carousel flyby is seeded and contracts with a narrower viewport', () => {
   const wide = layoutModule.createFlyingCarouselLayout({ viewportWidth: 10, seed: 41 });
   const repeated = layoutModule.createFlyingCarouselLayout({ viewportWidth: 10, seed: 41 });

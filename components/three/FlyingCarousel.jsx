@@ -449,6 +449,7 @@ export default function FlyingCarousel({
   const renderedLayout = useRef(null);
   const gl = useThree((state) => state.gl);
   const viewport = useThree((state) => state.viewport);
+  const viewportPixelWidth = useThree((state) => state.size.width);
   const renderFrameAtArm = useRef(gl.info.render.frame);
   const resources = useMemo(
     () => createCarouselResources(gl, textureWidth, backdropWidth),
@@ -456,8 +457,11 @@ export default function FlyingCarousel({
   );
   const sampleBuffers = useMemo(createSampleBuffers, []);
   const layout = useMemo(
-    () => createFlyingCarouselLayout({ viewportWidth: viewport.width }),
-    [viewport.width],
+    () => createFlyingCarouselLayout({
+      viewportWidth: viewport.width,
+      viewportPixelWidth,
+    }),
+    [viewport.width, viewportPixelWidth],
   );
 
   useEffect(() => () => disposeCarouselResources(resources), [resources]);

@@ -49,7 +49,7 @@ export default function CameraRig() {
 
     // Segment boundaries come from measured DOM section positions
     // (beatProgress), not a uniform index/(N-1) share of the page — beats
-    // vary in scroll length (Showcase's project grid dwarfs Hero/Services).
+    // vary in scroll length.
     if (motionLocked) {
       // The Motion section owns 400% of pinned scroll. Hold its declarative
       // camera stop for the whole pin instead of drifting toward Contact.

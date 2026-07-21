@@ -18,8 +18,8 @@ import { isBeatProgressActive } from '../../lib/sceneActivity.mjs';
 // so a burst stays visually anchored to the medal it came from.
 //
 // docs/HIVE-AUDIT.md Judge item 4 / docs/PIXEL-POLISH-PLAN.md Phase 1:
-// lib/journey.js flies the camera from STOPS[recognition] (z=-122, in front
-// of this ring's z=-130) to STOPS[motion] (z=-138, behind it) — the straight
+// lib/journey.js flies the camera from STOPS[recognition] (z=-106, in front
+// of this ring's z=-114) to STOPS[motion] (z=-122, behind it) — the straight
 // line between those stops crosses this ring's exact depth, close to its x/y
 // center, at the segment's midpoint. Left alone, the medals swim huge and
 // unfogged across the lens right as Motion's pinned headline arrives. The

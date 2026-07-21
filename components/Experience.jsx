@@ -9,7 +9,6 @@ import FocusVeil from './FocusVeil';
 import Hero from './sections/Hero';
 import Services from './sections/Services';
 import Approach from './sections/Approach';
-import Showcase from './sections/Showcase';
 import Stories from './sections/Stories';
 import Mark from './sections/Mark';
 import About from './sections/About';
@@ -33,7 +32,6 @@ export default function Experience() {
         <Hero />
         <About />
         <Facts />
-        <Showcase />
         <Services />
         <Approach />
         <Stories />

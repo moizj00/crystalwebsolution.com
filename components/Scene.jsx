@@ -6,7 +6,6 @@ import CameraRig from './three/CameraRig';
 import FocusDimmer from './three/FocusDimmer';
 import Crystal from './three/Crystal';
 import ServiceRail from './three/ServiceRail';
-import ShowcaseBoxes from './three/ShowcaseBoxes';
 import ApproachCompass from './three/ApproachCompass';
 import RecognitionRing from './three/RecognitionRing';
 import Particles from './three/Particles';
@@ -76,9 +75,6 @@ export default function Scene() {
 
         {/* Approach beat — step-markers orbiting a small core */}
         <ApproachCompass position={[0, 0, CLUSTERS.approach]} animate={quality.animate} />
-
-        {/* Showcase beat */}
-        <ShowcaseBoxes position={[0, 0, CLUSTERS.showcase]} animate={quality.animate} />
 
         {/* Recognition beat — medal ring, brightens on DOM row hover */}
         <RecognitionRing position={[0, 0, CLUSTERS.recognition]} animate={quality.animate} />

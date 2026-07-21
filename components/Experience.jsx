@@ -7,19 +7,21 @@ import Nav from './Nav';
 import ScrollProgress from './ScrollProgress';
 import FocusVeil from './FocusVeil';
 import Hero from './sections/Hero';
-import Services from './sections/Services';
-import Approach from './sections/Approach';
-import Showcase from './sections/Showcase';
-import Stories from './sections/Stories';
-import Mark from './sections/Mark';
-import About from './sections/About';
-import Facts from './sections/Facts';
-import Recognition from './sections/Recognition';
-import Motion from './sections/Motion';
-import Contact from './sections/Contact';
 
 // The Scene touches window + ships heavy libs — client-only.
 const Scene = dynamic(() => import('./Scene'), { ssr: false });
+
+// Lazy load section components that appear below the fold
+const Services = dynamic(() => import('./sections/Services'));
+const Approach = dynamic(() => import('./sections/Approach'));
+const Showcase = dynamic(() => import('./sections/Showcase'));
+const Stories = dynamic(() => import('./sections/Stories'));
+const Mark = dynamic(() => import('./sections/Mark'));
+const About = dynamic(() => import('./sections/About'));
+const Facts = dynamic(() => import('./sections/Facts'));
+const Recognition = dynamic(() => import('./sections/Recognition'));
+const Motion = dynamic(() => import('./sections/Motion'));
+const Contact = dynamic(() => import('./sections/Contact'));
 
 export default function Experience() {
   return (

@@ -88,7 +88,6 @@ const SceneContent = memo(function SceneContent({ quality, mountCarousel }) {
         </CanvasFeatureBoundary>
       )}
 
-      <Particles count={quality.particleCount} />
       <BackdropMorph />
       <Effects />
     </>

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import { BEAT_IDS, measureBeats } from '../lib/beatProgress.js';
-import { CLUSTERS, MOTION_WINDOW, STOPS } from '../lib/journey.js';
+import { CLUSTERS, LAB_WINDOW, MOTION_WINDOW, STOPS } from '../lib/journey.js';
 
 const experienceSource = readFileSync(
   new URL('../components/Experience.jsx', import.meta.url),
@@ -43,14 +43,14 @@ test('homepage keeps one selected-work beat and one merged trust beat', () => {
   assert.doesNotMatch(lightsSource, /CLUSTERS\.showcase/);
   assert.doesNotMatch(lightsSource, /CLUSTERS\.recognition/);
   assert.equal(BEAT_IDS.includes('work'), false);
-  assert.deepEqual(BEAT_IDS, ['hero', 'about', 'services', 'approach', 'stories', 'mark', 'motion', 'contact']);
+  assert.deepEqual(BEAT_IDS, ['hero', 'about', 'services', 'approach', 'stories', 'mark', 'lab', 'motion', 'contact']);
   assert.equal(Object.hasOwn(CLUSTERS, 'showcase'), false);
   assert.equal(Object.hasOwn(CLUSTERS, 'facts'), false);
   assert.equal(Object.hasOwn(CLUSTERS, 'recognition'), false);
   assert.equal(STOPS.length, BEAT_IDS.length);
 });
 
-test('the motion window ends when the sticky stage finishes travelling', () => {
+test('the flight windows end when their sticky stages finish travelling', () => {
   const originalWindow = globalThis.window;
   const originalDocument = globalThis.document;
   const tops = new Map(BEAT_IDS.map((id, index) => [id, index * 1000]));
@@ -68,8 +68,12 @@ test('the motion window ends when the sticky stage finishes travelling', () => {
 
   try {
     measureBeats(10000);
-    assert.equal(MOTION_WINDOW.start, 0.6);
-    assert.equal(MOTION_WINDOW.end, 0.78);
+    assert.equal(LAB_WINDOW.start, 0.6);
+    // The mocked lab section has no sticky overshoot (1000px tall in a
+    // 1000px viewport), so its travel clamps to the 1px minimum.
+    assert.ok(Math.abs(LAB_WINDOW.end - 0.6001) < 1e-9);
+    assert.equal(MOTION_WINDOW.start, 0.7);
+    assert.equal(MOTION_WINDOW.end, 0.88);
   } finally {
     globalThis.window = originalWindow;
     globalThis.document = originalDocument;

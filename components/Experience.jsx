@@ -12,6 +12,7 @@ import Approach from './sections/Approach';
 import Stories from './sections/Stories';
 import Mark from './sections/Mark';
 import About from './sections/About';
+import Lab from './sections/Lab';
 import Motion from './sections/Motion';
 import Contact from './sections/Contact';
 
@@ -33,6 +34,7 @@ export default function Experience() {
         <Approach />
         <Stories />
         <Mark />
+        <Lab />
         <Motion />
         <Contact />
       </main>

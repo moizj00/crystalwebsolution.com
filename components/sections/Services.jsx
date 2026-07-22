@@ -18,7 +18,7 @@ export default function Services() {
           </SectionReveal>
         </div>
         <div className="services-list">
-          {SERVICES.map((s) => (
+          {SERVICES.map((s, i) => (
             <SectionReveal
               key={s.n}
               className="service-row"

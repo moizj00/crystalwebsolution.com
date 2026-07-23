@@ -2,10 +2,13 @@
 
 import { useId, useRef, useState } from 'react';
 import SectionReveal from '../SectionReveal';
-import { FEATURED_REVIEWS } from '../../lib/reviews';
+import { REVIEWS } from '../../lib/reviews';
 
-const STORIES = FEATURED_REVIEWS.map((review) => ({
-  tab: review.reviewer,
+const HOME_REVIEW_IDS = ['vaughn-hebron', 'porsha-patterson', 'style-loft'];
+const REVIEWS_BY_ID = new Map(REVIEWS.map((review) => [review.id, review]));
+
+const STORIES = HOME_REVIEW_IDS.map((id) => REVIEWS_BY_ID.get(id)).map((review) => ({
+  tab: review.company || review.reviewer,
   quote: review.body[0],
   author: `${review.company ? `${review.company} • ` : ''}${review.rating}/5 • ${review.date}`,
 }));

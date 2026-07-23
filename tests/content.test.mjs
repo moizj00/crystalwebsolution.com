@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import { VERIFIED_CLIENTS } from '../lib/clients.js';
-import { FEATURED_REVIEWS, REVIEWS, REVIEW_STATS } from '../lib/reviews.js';
+import { REVIEWS, REVIEW_STATS } from '../lib/reviews.js';
 import { SITE } from '../lib/site.js';
+
+const STORIES_SOURCE = readFileSync(
+  new URL('../components/sections/Stories.jsx', import.meta.url),
+  'utf8',
+);
 
 test('review archive preserves the supplied 20-review set', () => {
   assert.equal(REVIEWS.length, 20);
@@ -21,10 +27,16 @@ test('review summary matches the approved content plan', () => {
   });
 });
 
-test('homepage excerpts are sourced from the full archive', () => {
-  const archiveIds = new Set(REVIEWS.map((review) => review.id));
-  assert.equal(FEATURED_REVIEWS.length, 6);
-  assert.ok(FEATURED_REVIEWS.every((review) => archiveIds.has(review.id)));
+test('homepage uses three complete, attributable reviews', () => {
+  const ids = ['vaughn-hebron', 'porsha-patterson', 'style-loft'];
+  const reviews = ids.map((id) => REVIEWS.find((review) => review.id === id));
+
+  assert.equal(reviews.length, 3);
+  assert.ok(reviews.every((review) => review?.reviewer && review.body[0]));
+  assert.equal(reviews[1].company, 'Zues Towing');
+  assert.equal(reviews[0].company, undefined);
+  ids.forEach((id) => assert.match(STORIES_SOURCE, new RegExp(`['"]${id}['"]`)));
+  assert.doesNotMatch(STORIES_SOURCE, /FEATURED_REVIEWS/);
 });
 
 test('global content publishes verified contact details without placeholder socials', () => {

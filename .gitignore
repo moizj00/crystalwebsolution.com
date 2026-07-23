@@ -17,3 +17,4 @@ node_modules/
 /_to_delete/
 .vercel
 .env*
+!.env.example

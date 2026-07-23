@@ -55,6 +55,11 @@ export default function Nav() {
             </a>
           </Magnetic>
           <Magnetic>
+            <Link href="/login" className="btn btn-ghost" data-cursor="Sign in">
+              Client Login
+            </Link>
+          </Magnetic>
+          <Magnetic>
             <button
               type="button"
               className={`nav-burger ${open ? 'is-open' : ''}`}

@@ -102,6 +102,7 @@ export default function Menu({ open, onClose }) {
           {SITE.phone && (
             <a href={`tel:${SITE.phone.replace(/[^+\d]/g, '')}`} tabIndex={open ? 0 : -1}>{SITE.phone}</a>
           )}
+          <Link href="/login" onClick={onClose} tabIndex={open ? 0 : -1}>Client &amp; team login</Link>
         </div>
         {SITE.socials.length > 0 && (
           <div>

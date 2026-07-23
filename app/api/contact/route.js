@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { validateContactForm } from '../../../lib/contactForm.mjs';
+import { captureLead } from '../../../lib/crm/captureLead';
 
 const json = (body, status) => NextResponse.json(body, { status });
 
@@ -30,6 +31,13 @@ export async function POST(request) {
       errors: validation.errors,
     }, 400);
   }
+
+  // Best-effort: land the inquiry in the CRM pipeline. Awaited (serverless
+  // functions can be frozen the instant a response is sent, killing any
+  // still-in-flight fire-and-forget call) but its outcome never changes the
+  // response below — a Supabase outage shouldn't stop the visitor's message
+  // from reaching the webhook.
+  await captureLead(validation.data);
 
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
   if (!webhookUrl) {
